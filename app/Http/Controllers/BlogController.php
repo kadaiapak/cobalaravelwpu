@@ -10,17 +10,9 @@ class BlogController extends Controller
     public function index()
     {
 
-        $posts = Post::latest();
-
-
-        if(request('search')) {
-            $posts->where('title', 'like', '%' .request('search') . '%')
-            ->orwhere('body', 'like', '%' .request('search') . '%' ); 
-        }
-
         return view('blog', [
             'title' => 'All Post',
-            'posts' => $posts->get()
+            'posts' => Post::latest()->filter()->get()
         ]);
     }
 
