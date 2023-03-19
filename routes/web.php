@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardPostController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegistrationController;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -46,3 +50,16 @@ Route::get('/authors/{author:username}', function (User $author) {
         'posts' => $author->posts->load('category', 'author'),
     ]);
 });
+
+Route::get('/registration', [RegistrationController::class, 'index']);
+Route::post('/registration', [RegistrationController::class, 'store']);
+
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate']);
+
+Route::post('/logout', [LoginController::class, 'logout']);
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+
+Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
+

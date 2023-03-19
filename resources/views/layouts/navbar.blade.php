@@ -18,12 +18,39 @@
                         <li class="nav-item">
                             <a class="nav-link {{ $title == 'All Categories' ? 'active' : null }}" href="{{ url('/categories') }}">Categories</a>
                         </li>
-                      
                     </ul>
-                    <form class="d-flex" role="search" action="/blog">
-                        <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search" value="{{ request('search') }}">
-                        <button class="btn btn-outline-success" type="submit" >Search</button>
-                    </form>
+                    <ul class="navbar-nav ms-auto">
+                        @auth
+                        {{ null }}
+                        @else
+                        <li class="nav-item">
+                            <a class="nav-link {{ $title == 'Registration' ? 'active' : null }}" href="{{ url('/registration') }}">Registration</a>
+                        </li>
+                        @endauth
+                        @auth
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Welcome Back, {{ auth()->user()->fullname }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/dashboard">My Dashboard</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <form action="/logout" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
+                            </ul>
+                        </li>
+                        @else
+                         <li class="nav-item">
+                            <a class="nav-link {{ $title == 'Login' ? 'active' : null }}" href="{{ url('/login') }}">Login</a>
+                        </li>  
+                        @endauth
+                    </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        
+                    </ul>
+                
                 </div>
             </div>
         </nav>

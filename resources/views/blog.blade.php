@@ -1,6 +1,13 @@
 @extends('layouts.main')
 
 @section('container')
+<form class="d-flex" role="search" action="/blog">
+	@if (request('category'))
+		<input type="hidden" name="category" value="{{ request('category') }}">
+	@endif
+	<input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search" value="{{ request('search') }}">
+	<button class="btn btn-outline-success" type="submit" >Search</button>
+</form>
 @if ($posts->count())
 <div class="card mb-3">
     <img src="https://source.unsplash.com/1200x400?{{ $posts[0]->category->name }}" class="card-img-top" alt="{{ $posts[0]->category->name }}">
@@ -27,7 +34,7 @@
 		<div class="col-md-4 mb-3">
 			<div class="card">
 				<div class="position-absolute p-3 text-white" style="background-color: rgba(0,0,0,0.7)">
-						<a href="/categories/{{ $p->category->slug }}" class="text-decoration-none text-white">
+						<a href="/blog?category={{ $p->category->slug }}" class="text-decoration-none text-white">
 						{{ $p->category->name }}
 						</a>
 				</div>
