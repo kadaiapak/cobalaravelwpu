@@ -28,6 +28,11 @@
             <a href="/dashboard/posts/create" class="btn btn-primary">Tambah Post Baru</a>
           </div> 
           <div class="card-body">
+            @if (session()->has('success'))
+                <div class="alert alert-primary" role="alert">
+                 {{ session('success') }} 
+                </div>
+            @endif
                 <table class="table table-bordered">
                   <thead>
                     <tr>

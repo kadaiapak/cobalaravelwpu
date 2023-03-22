@@ -27,35 +27,49 @@
           <div class="card-header">
             <h3 class="card-title">Form Tambah Post</h3>
           </div> 
-          <form>
+          <form method="post" action="/dashboard/posts">
+            @csrf
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div>
+                    <label for="title">Title</label>
+                    <input type="text" value="{{ old('title') }}" name='title' class="form-control @error('title') is-invalid @enderror" id="title" placeholder="title" autofocus required>
+                    @error('title')
+                    <div class="invalid-feedback">
+                      {{ $message }}
                     </div>
+                    @enderror
                   </div>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                  <div class="form-group">
+                    <label for="slug">Slug</label>
+                    <input type="text" value="{{ old('slug') }}" class="form-control @error('slug') is-invalid @enderror" name='slug' id="slug" placeholder="slug" required>
+                    @error('slug')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                      @enderror
+                  </div>
+                  <div class="form-group">
+                      <label for="category">Select</label>
+                      <select class="form-control" name="category_id">
+                        @foreach ($categories as $c)
+                            @if (old('category_id') == $c->id)
+                               <option value="{{ $c->id }}" selected>{{ $c->name }}</option>
+                            @else
+                                <option value="{{ $c->id }}">{{ $c->name }}</option>
+                            @endif
+                        @endforeach
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="body">body</label>
+                    <input type="hidden" id="body" name="body" value="{{ old('body') }}">
+                    <trix-editor input="body"></trix-editor>
+                    @error('body')
+                      <p class="text-danger" style="font-size: 80%">{{ $message }}</p>
+                    @enderror
                   </div>
                 </div>
                 <!-- /.card-body -->
-
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
@@ -66,4 +80,19 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+  <script>
+    const title = document.querySelector('#title');
+    const slug = document.querySelector('#slug');
+
+    title.addEventListener('change', function() {
+      fetch('/dashboard/posts/checkSlug?title=' + title.value)
+      .then(response => response.json())
+      .then(data => slug.value = data.slug)
+    });
+
+    document.addEventListener('trix-file-accept', function(e) {
+      e.preventDefault();
+    });
+  </script>
 @endsection

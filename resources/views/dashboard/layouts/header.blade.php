@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cobalaravel | Dashboard</title>
-
+  <title>Cobalaravel | Dashboards</title>
+  <link rel="shortcut icon" href="logo.png" type="image/png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -25,5 +25,13 @@
   <link rel="stylesheet" href="{{ asset('backend/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('backend/plugins/summernote/summernote-bs4.min.css') }}">
+  {{-- trix editor --}}
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+  <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
+  <style>
+    trix-toolbar [data-trix-button-group = "file-tools"] {
+      display: none;
+    } 
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
